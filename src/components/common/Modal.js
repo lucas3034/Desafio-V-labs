@@ -1,19 +1,14 @@
 import { useEffect } from 'react';
-import { 
-  ModalOverlay, 
-  ModalContent, 
-  ModalHeader, 
-  ModalTitle, 
-  ModalCloseButton 
-} from '../../styles/GlobalStyles';
+import { ModalOverlay, ModalCloseButton } from '../../styles/GlobalStyles';
 
-const Modal = ({ 
-  isOpen, 
-  onClose, 
-  title, 
-  children, 
+const Modal = ({
+  isOpen,
+  onClose,
+  title,
+  children,
   maxWidth = '500px',
-  closeOnOverlayClick = true 
+  closeOnOverlayClick = true,
+  hideCloseButton = false
 }) => {
   useEffect(() => {
     const handleEscape = (e) => {
@@ -24,12 +19,12 @@ const Modal = ({
 
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
+      // Removido overflow hidden para permitir scroll do body com modal aberto
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
+      // Removido overflow unset
     };
   }, [isOpen, onClose]);
 
@@ -43,17 +38,39 @@ const Modal = ({
 
   return (
     <ModalOverlay onClick={handleOverlayClick}>
-      <ModalContent style={{ maxWidth }}>
-        {title && (
-          <ModalHeader>
-            <ModalTitle>{title}</ModalTitle>
-            <ModalCloseButton onClick={onClose}>
-              ×
-            </ModalCloseButton>
-          </ModalHeader>
+      <div
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          minWidth: 380,
+          minHeight: 120,
+          padding: 24
+        }}
+      >
+        {!hideCloseButton && (
+          <ModalCloseButton
+            onClick={onClose}
+            style={{
+              position: 'absolute',
+              top: 10,
+              right: 10,
+              zIndex: 2,
+              fontSize: 18,
+              width: 28,
+              height: 28,
+              background: 'transparent',
+              color: '#444',
+              opacity: 0.5,
+              border: 'none',
+              cursor: 'pointer',
+              lineHeight: 1
+            }}
+          >
+            &times;
+          </ModalCloseButton>
         )}
         {children}
-      </ModalContent>
+      </div>
     </ModalOverlay>
   );
 };

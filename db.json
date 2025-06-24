@@ -23,20 +23,40 @@
       "name": "Olivia Lomeli",
       "email": "olivia.lomeli@example.com",
       "password": "123456"
+    },
+    {
+      "id": "7c3e",
+      "name": "Noah Lewis",
+      "email": "noah.lewis@example.com",
+      "password": "123456"
+    },
+    {
+      "id": "1e3b",
+      "name": "Noah Lewis",
+      "email": "noah.lewis@example.com",
+      "password": "123456"
+    },
+    {
+      "id": "8a22",
+      "name": "Noah Lewis",
+      "email": "noah.lewis@example.com",
+      "password": "123456"
+    },
+    {
+      "id": "8ac3",
+      "name": "Sofia Lo",
+      "email": "sofia.lo@example.com",
+      "password": "123456"
     }
   ],
   "courses": [
     {
-      "id": "1",
       "name": "React Fundamentals",
       "description": "Aprenda os conceitos fundamentais do React",
       "start_date": "2025-01-15",
       "end_date": "2025-03-15",
-      "creator_id": 1,
-      "instructors": [
-        1,
-        2
-      ]
+      "creator_id": "1",
+      "id": "1"
     },
     {
       "id": "2",
@@ -44,9 +64,9 @@
       "description": "Domine JavaScript moderno e suas funcionalidades avançadas",
       "start_date": "2025-02-01",
       "end_date": "2025-04-01",
-      "creator_id": 2,
+      "creator_id": "2",
       "instructors": [
-        2
+        "2"
       ]
     }
   ],
@@ -58,7 +78,7 @@
       "publish_date": "2025-01-20",
       "video_url": "https://www.youtube.com/watch?v=1LhX2u6_BJE",
       "course_id": "1",
-      "creator_id": 1
+      "creator_id": "1"
     },
     {
       "id": "2",
@@ -67,7 +87,7 @@
       "publish_date": "2025-01-25",
       "video_url": "https://www.youtube.com/watch?v=bSkqEC6L6is",
       "course_id": "1",
-      "creator_id": 2
+      "creator_id": "2"
     },
     {
       "id": "3",
@@ -76,7 +96,7 @@
       "publish_date": "2025-01-30",
       "video_url": "https://www.youtube.com/watch?v=Fc-___dblSI",
       "course_id": "1",
-      "creator_id": 1
+      "creator_id": "1"
     },
     {
       "id": "4",
@@ -85,7 +105,7 @@
       "publish_date": "2025-02-05",
       "video_url": "https://www.youtube.com/watch?v=MR8IyuhrDK8",
       "course_id": "2",
-      "creator_id": 2
+      "creator_id": "2"
     },
     {
       "id": "cd62",
@@ -94,7 +114,7 @@
       "publish_date": "2025-06-25",
       "video_url": "https://www.youtube.com/watch?v=flstmYy-7wM",
       "course_id": "1",
-      "creator_id": 1
+      "creator_id": "1"
     }
   ]
 }

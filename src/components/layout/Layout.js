@@ -10,22 +10,26 @@ const LayoutWrapper = styled.div`
 `;
 
 const Header = styled.header`
-  background: linear-gradient(135deg, ${props => props.theme.colors.white} 0%, ${props => props.theme.colors.gray50} 100%);
-  box-shadow: ${props => props.theme.shadows.lg};
-  padding: ${props => props.theme.spacing.lg} 0;
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.theme.colors.white} 0%,
+    ${(props) => props.theme.colors.gray50} 100%
+  );
+  box-shadow: ${(props) => props.theme.shadows.lg};
+  padding: ${(props) => props.theme.spacing.lg} 0;
   position: sticky;
   top: 0;
   z-index: 100;
-  border-bottom: 1px solid ${props => props.theme.colors.gray200};
+  border-bottom: 1px solid ${(props) => props.theme.colors.gray200};
 `;
 
 const LogoContainer = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: ${props => props.theme.spacing.sm};
-  transition: ${props => props.theme.transitions.normal};
-  
+  gap: ${(props) => props.theme.spacing.sm};
+  transition: ${(props) => props.theme.transitions.normal};
+
   &:hover {
     transform: translateY(-1px);
   }
@@ -34,19 +38,19 @@ const LogoContainer = styled.div`
 const LogoIcon = styled.div`
   width: 40px;
   height: 40px;
-  background: ${props => props.theme.colors.primaryGradient};
-  border-radius: ${props => props.theme.borderRadius.lg};
+  background: ${(props) => props.theme.colors.primaryGradient};
+  border-radius: ${(props) => props.theme.borderRadius.lg};
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.white};
   font-weight: 700;
   font-size: 1.2rem;
-  box-shadow: ${props => props.theme.shadows.md};
+  box-shadow: ${(props) => props.theme.shadows.md};
 `;
 
 const Logo = styled.h1`
-  background: ${props => props.theme.colors.primaryGradient};
+  background: ${(props) => props.theme.colors.primaryGradient};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -59,51 +63,55 @@ const Logo = styled.h1`
 const UserSection = styled.div`
   display: flex;
   align-items: center;
-  gap: ${props => props.theme.spacing.lg};
+  gap: ${(props) => props.theme.spacing.lg};
 `;
 
 const UserInfo = styled.div`
-  color: ${props => props.theme.colors.gray600};
+  color: ${(props) => props.theme.colors.gray600};
   font-size: 0.875rem;
   font-weight: 500;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  
+
   .greeting {
-    color: ${props => props.theme.colors.gray800};
+    color: ${(props) => props.theme.colors.gray800};
     font-weight: 600;
   }
-  
+
   .role {
     font-size: 0.75rem;
-    color: ${props => props.theme.colors.gray500};
+    color: ${(props) => props.theme.colors.gray500};
   }
 `;
 
 const UserAvatar = styled.div`
   width: 36px;
   height: 36px;
-  background: ${props => props.theme.colors.primaryGradient};
-  border-radius: ${props => props.theme.borderRadius.full};
+  background: ${(props) => props.theme.colors.primaryGradient};
+  border-radius: ${(props) => props.theme.borderRadius.full};
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${props => props.theme.colors.white};
+  color: ${(props) => props.theme.colors.white};
   font-weight: 600;
   font-size: 0.875rem;
-  box-shadow: ${props => props.theme.shadows.md};
+  box-shadow: ${(props) => props.theme.shadows.md};
 `;
 
 const Main = styled.main`
   flex: 1;
-  padding: ${props => props.theme.spacing.xl} 0;
+  padding: ${(props) => props.theme.spacing.xl} 0;
 `;
 
 const Footer = styled.footer`
-  background: linear-gradient(135deg, ${props => props.theme.colors.gray800} 0%, ${props => props.theme.colors.gray900} 100%);
-  color: ${props => props.theme.colors.white};
-  padding: ${props => props.theme.spacing.xl} 0;
+  background: linear-gradient(
+    135deg,
+    ${(props) => props.theme.colors.gray800} 0%,
+    ${(props) => props.theme.colors.gray900} 100%
+  );
+  color: ${(props) => props.theme.colors.white};
+  padding: ${(props) => props.theme.spacing.xl} 0;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -115,12 +123,12 @@ const Footer = styled.footer`
     left: 0;
     right: 0;
     height: 3px;
-    background: ${props => props.theme.colors.primaryGradient};
+    background: ${(props) => props.theme.colors.primaryGradient};
   }
 
   p {
     margin: 0;
-    font-size: ${props => props.theme.typography.fontSize.sm};
+    font-size: ${(props) => props.theme.typography.fontSize.sm};
     opacity: 0.9;
     position: relative;
     z-index: 1;
@@ -142,7 +150,7 @@ const Layout = ({ children }) => {
   const getUserInitials = (name) => {
     return name
       .split(' ')
-      .map(word => word.charAt(0))
+      .map((word) => word.charAt(0))
       .join('')
       .toUpperCase()
       .substring(0, 2);
@@ -174,14 +182,12 @@ const Layout = ({ children }) => {
       </Header>
 
       <Main>
-        <Container>
-          {children}
-        </Container>
+        <Container>{children}</Container>
       </Main>
 
       <Footer>
         <Container>
-          <p>&copy; 2025 CourseSphere. Todos os direitos reservados.</p>
+          <p>&copy; Criado por Lucas Marinho Rodrigues - Desafio Front-End</p>
         </Container>
       </Footer>
     </LayoutWrapper>
