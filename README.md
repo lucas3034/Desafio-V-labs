@@ -301,6 +301,9 @@ Para build de produção:
 npm run build
 ```
 
+Para testar o projeto, você pode usar a versão online ou instalar localmente.
+Para acesso online (apenas para visualização, sem salvar alterações), use este link: https://desafio-v-labs.vercel.app
+
 ## 🤝 Contribuição
 
 Este projeto foi desenvolvido seguindo as especificações do Edital 38-2025. Para contribuições:
