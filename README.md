@@ -127,11 +127,18 @@ src/
 
 ## 🎨 Funcionalidades Detalhadas
 
+![image](https://github.com/user-attachments/assets/09f84222-035f-4cdb-818c-b66bbca9ee9d)
+
+![image](https://github.com/user-attachments/assets/0e67dce6-433c-470c-bb7d-a64ca5718444)
+
 ### 1. Sistema de Autenticação
 - Login com validação de email e senha
 - Proteção de rotas privadas
 - Persistência de sessão no localStorage
 - Logout seguro
+
+![image](https://github.com/user-attachments/assets/99b8eed1-3c5c-44e2-b1c1-3dc84814e285)
+
 
 ### 2. Dashboard
 - Lista de cursos do usuário (criador ou instrutor)
@@ -139,11 +146,15 @@ src/
 - Indicação visual do papel do usuário
 - Criação rápida de novos cursos
 
+![image](https://github.com/user-attachments/assets/4cd7284a-3bd8-4bcf-86d2-bb153a0f3f81)
+
 ### 3. Gestão de Cursos
 - Formulário completo de criação/edição
 - Validações em tempo real
 - Controle de permissões por função
 - Visualização detalhada com metadados
+
+![image](https://github.com/user-attachments/assets/8df8f743-5189-4700-8b00-ea288d002409)
 
 ### 4. Gestão de Aulas
 - CRUD completo com regras específicas
@@ -152,11 +163,15 @@ src/
 - Paginação de resultados
 - Preview de vídeos
 
+![image](https://github.com/user-attachments/assets/b75c9946-9ecf-4f5f-a5ce-2341d4dab94d)
+
 ### 5. Gerenciamento de Instrutores
 - Visualização de instrutores atuais
 - Adição via API externa (RandomUser.me)
 - Remoção de instrutores
 - Feedbacks visuais de ações
+
+![image](https://github.com/user-attachments/assets/331ee3bb-26e6-4f1e-957b-5875b23fded8)
 
 ### 6. Sistema de Busca e Filtros
 - Campo de busca por título de aulas
