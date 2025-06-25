@@ -15,7 +15,7 @@ export const validateDate = (date) => {
 export const validateFutureDate = (date) => {
   const dateObj = new Date(date);
   const today = new Date();
-  today.setHours(23, 59, 59, 999); // Permite datas do dia atual
+  today.setHours(23, 59, 59, 999);
   return dateObj >= today;
 };
 
@@ -94,7 +94,6 @@ export const lessonValidationRules = {
     required: true,
     custom: (value) => {
       if (!validateDate(value)) return 'Data de publicação inválida';
-      // Permite datas a partir de hoje
       const inputDate = new Date(value);
       const today = new Date();
       today.setHours(0, 0, 0, 0);

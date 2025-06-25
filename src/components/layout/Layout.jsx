@@ -16,7 +16,7 @@ const Header = styled.header`
     ${(props) => props.theme.colors.gray50} 100%
   );
   box-shadow: ${(props) => props.theme.shadows.lg};
-  padding: ${(props) => props.theme.spacing.lg} 0;
+  padding: ${(props) => props.theme.spacing.md} 0;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -58,12 +58,29 @@ const Logo = styled.h1`
   font-weight: 700;
   margin: 0;
   letter-spacing: -0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const UserSection = styled.div`
   display: flex;
   align-items: center;
-  gap: ${(props) => props.theme.spacing.lg};
+  gap: ${(props) => props.theme.spacing.sm};
+  min-width: 0;
+  overflow: hidden;
+`;
+
+const UserRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: ${(props) => props.theme.spacing.sm};
+  min-width: 0;
+  overflow: hidden;
+`;
+
+const HeaderButton = styled(Button)`
+  white-space: nowrap;
 `;
 
 const UserInfo = styled.div`
@@ -167,14 +184,15 @@ const Layout = ({ children }) => {
             </LogoContainer>
             {user && (
               <UserSection>
-                <UserInfo>
-                  <div className="greeting">Olá, {user.name}</div>
-                  <div className="role">Instrutor</div>
-                </UserInfo>
-                <UserAvatar>{getUserInitials(user.name)}</UserAvatar>
-                <Button variant="secondary" size="small" onClick={handleLogout}>
-                  Sair
-                </Button>
+                <UserRow>
+                  <UserAvatar>{getUserInitials(user.name)}</UserAvatar>
+                  <div className="greeting" style={{ fontWeight: 500, color: "#374151" }}>
+                    {user.name}
+                  </div>
+                  <HeaderButton variant="secondary" size="small" onClick={handleLogout}>
+                    Sair
+                  </HeaderButton>
+                </UserRow>
               </UserSection>
             )}
           </Flex>

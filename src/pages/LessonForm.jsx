@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { lessonService, courseService } from '../services/api';
 import { useForm } from '../hooks/useForm';
 import { lessonValidationRules } from '../utils/validation';
+import SuccessModal from '../components/common/SuccessModal';
 import { 
   Card, 
   Button, 
@@ -145,6 +146,7 @@ const LessonForm = () => {
   const [submitMessage, setSubmitMessage] = useState('');
   const [submitError, setSubmitError] = useState('');
   const [thumbnailPreview, setThumbnailPreview] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const { values, errors, touched, handleChange, handleBlur, validateAll, setValues } = useForm(
     {
@@ -161,7 +163,6 @@ const LessonForm = () => {
       const courseData = await courseService.getById(courseId);
       setCourse(courseData);
 
-      // Verificar se o usuário é instrutor ou criador do curso
       const userId = parseInt(user.id, 10);
       const isCreator = parseInt(courseData.creator_id, 10) === userId;
       const isInstructor = courseData.instructors.some(instructorId => 
@@ -235,19 +236,21 @@ const LessonForm = () => {
       if (isEditing) {
         await lessonService.update(lessonId, lessonData);
         setSubmitMessage('Aula atualizada com sucesso!');
+        setShowSuccess(true);
       } else {
         const newLesson = await lessonService.create(lessonData);
         console.log('Nova aula criada:', newLesson);
         setSubmitMessage('Aula criada com sucesso!');
+        setShowSuccess(true);
       }
 
       setTimeout(() => {
-        // Chama o refresh da página antes de navegar
+        setShowSuccess(false);
         if (window.refreshCourseDetails) {
           window.refreshCourseDetails();
         }
         navigate(`/courses/${courseId}`);
-      }, 1500);
+      }, 3000);
     } catch (error) {
       setSubmitError('Erro ao salvar aula. Tente novamente.');
     } finally {
@@ -286,11 +289,21 @@ const LessonForm = () => {
           </CourseInfo>
         )}
 
-        {submitMessage && (
-          <SuccessMessage>
-            {submitMessage}
-          </SuccessMessage>
-        )}
+        <SuccessModal
+          isOpen={showSuccess}
+          onClose={() => setShowSuccess(false)}
+          title={isEditing ? 'Aula atualizada com sucesso!' : 'Aula criada com sucesso!'}
+          text={
+            isEditing
+              ? 'As informações da aula foram atualizadas com sucesso.'
+              : 'A nova aula foi criada com sucesso.'
+          }
+          extraButton={
+            <Button variant="primary" onClick={() => navigate('/')}>
+              Voltar ao menu
+            </Button>
+          }
+        />
 
         {submitError && (
           <ErrorAlert>

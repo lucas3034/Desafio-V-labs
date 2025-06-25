@@ -28,6 +28,14 @@ const PageHeader = styled.div`
   position: relative;
   overflow: hidden;
 
+  @media (max-width: ${(props) => props.theme.breakpoints.mobile}) {
+    padding: ${(props) => props.theme.spacing.xl} 0;
+    margin: -${(props) => props.theme.spacing.md} -${(props) =>
+      props.theme.spacing.sm} ${(props) => props.theme.spacing.lg};
+    border-radius: 0 0 ${(props) => props.theme.borderRadius.lg}
+      ${(props) => props.theme.borderRadius.lg};
+  }
+
   &::before {
     content: '';
     position: absolute;
@@ -57,13 +65,21 @@ const HeaderContent = styled.div`
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 ${(props) => props.theme.spacing.lg};
+
+  @media (max-width: ${(props) => props.theme.breakpoints.mobile}) {
+    padding: 0 ${(props) => props.theme.spacing.md};
+  }
 `;
 
 const CourseTitle = styled.h1`
-  font-size: ${(props) => props.theme.typography.fontSize['4xl']};
+  font-size: ${(props) => props.theme.typography.fontSize['2xl']};
   font-weight: ${(props) => props.theme.typography.fontWeight.bold};
   margin-bottom: ${(props) => props.theme.spacing.lg};
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: ${(props) => props.theme.breakpoints.mobile}) {
+    font-size: ${(props) => props.theme.typography.fontSize.lg};
+  }
 `;
 
 const CourseSubtitle = styled.p`
@@ -437,7 +453,7 @@ const CourseDetails = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [id, navigate, user]);
+  }, [id, navigate]);
 
   const refreshLessons = useCallback(async () => {
     try {

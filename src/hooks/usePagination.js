@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 
 export const usePagination = (data, itemsPerPage = 10) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -29,9 +29,9 @@ export const usePagination = (data, itemsPerPage = 10) => {
     }
   };
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setCurrentPage(1);
-  };
+  }, []);
 
   return {
     currentPage,

@@ -45,7 +45,6 @@ export const GlobalStyle = createGlobalStyle`
     list-style: none;
   }
 
-  /* Scrollbar customization */
   ::-webkit-scrollbar {
     width: 6px;
   }
@@ -61,6 +60,49 @@ export const GlobalStyle = createGlobalStyle`
 
   ::-webkit-scrollbar-thumb:hover {
     background: ${props => props.theme.colors.gray400};
+  }
+
+  /* Responsividade global para mobile */
+  @media (max-width: ${props => props.theme.breakpoints.mobile}) {
+    html {
+      font-size: 15px;
+    }
+    body {
+      padding: 0;
+      font-size: ${props => props.theme.typography.fontSize.sm};
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-size: 1.1em;
+      word-break: break-word;
+    }
+    button, input, textarea, select {
+      font-size: ${props => props.theme.typography.fontSize.sm};
+      min-width: 0;
+      min-height: 40px;
+    }
+    a, button {
+      word-break: break-word;
+    }
+    img, svg, video, canvas, audio, iframe, embed, object {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+    table {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+    }
+    ul, ol {
+      padding-left: ${props => props.theme.spacing.sm};
+    }
+    .hide-on-mobile {
+      display: none !important;
+    }
+    .full-width-mobile {
+      width: 100% !important;
+      max-width: 100% !important;
+    }
   }
 `;
 
@@ -459,14 +501,13 @@ export const LoadingSpinner = styled.div`
   }
 `;
 
-// Modal Components
 export const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(10, 10, 10, 0.2); /* Subtle dark tint */
+  background: rgba(10, 10, 10, 0.2);
   backdrop-filter: blur(12px) saturate(180%);
   -webkit-backdrop-filter: blur(12px) saturate(180%);
   display: flex;
@@ -550,7 +591,6 @@ export const ModalCloseButton = styled.button`
   }
 `;
 
-// Additional UI Components
 export const Badge = styled.span`
   background: ${props => {
     switch (props.variant) {

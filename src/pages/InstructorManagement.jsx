@@ -16,6 +16,14 @@ import {
   LoadingSpinner
 } from '../styles/GlobalStyles';
 
+const RemoveButton = styled(Button)`
+  min-width: 80px;
+  max-width: 100%;
+  width: auto;
+  white-space: nowrap;
+  flex-shrink: 0;
+`;
+
 const Header = styled.div`
   margin-bottom: ${(props) => props.theme.spacing.xl};
 `;
@@ -208,24 +216,33 @@ const InstructorManagement = () => {
 
   const addExternalInstructor = async (externalUser) => {
     try {
-      const existingUser = instructors.find(
+      const alreadyInstructor = instructors.find(
         (instructor) => instructor.email === externalUser.email
       );
-
-      if (existingUser) {
+      if (alreadyInstructor) {
         setError('Este usuário já é instrutor do curso');
         return;
       }
 
-      const newUser = await userService.create({
-        name: externalUser.name,
-        email: externalUser.email,
-        password: '123456'
-      });
+      const allUsers = await userService.getAll();
+      const existingUser = allUsers.find(
+        (u) => u.email === externalUser.email
+      );
+
+      let userToAdd;
+      if (existingUser) {
+        userToAdd = existingUser;
+      } else {
+        userToAdd = await userService.create({
+          name: externalUser.name,
+          email: externalUser.email,
+          password: '123456'
+        });
+      }
 
       const updatedInstructors = Array.isArray(course.instructors)
-        ? [...course.instructors, newUser.id]
-        : [newUser.id];
+        ? [...course.instructors, userToAdd.id]
+        : [userToAdd.id];
 
       await courseService.update(courseId, {
         ...course,
@@ -237,7 +254,7 @@ const InstructorManagement = () => {
         instructors: updatedInstructors
       }));
 
-      setInstructors((prev) => [...prev, newUser]);
+      setInstructors((prev) => [...prev, userToAdd]);
       setMessage('Instrutor adicionado com sucesso');
       setExternalUsers((prev) =>
         prev.filter((u) => u.email !== externalUser.email)
@@ -245,7 +262,7 @@ const InstructorManagement = () => {
 
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
-      setError('Erro ao adicionar instrutor');
+      setError(error?.message || 'Erro ao adicionar instrutor');
     }
   };
 
@@ -291,7 +308,17 @@ const InstructorManagement = () => {
         ) : (
           <Grid>
             {instructors.map((inst) => (
-              <Card key={inst.id} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+              <Card
+                key={inst.id}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 16,
+                  flexWrap: 'wrap',
+                  width: '100%',
+                  boxSizing: 'border-box'
+                }}
+              >
                 <AvatarWrapper>
                   {inst.picture ? (
                     <UserAvatar src={inst.picture} alt={inst.name} />
@@ -308,7 +335,7 @@ const InstructorManagement = () => {
                   <InstructorName>{inst.name}</InstructorName>
                   <InstructorEmail>{inst.email}</InstructorEmail>
                 </div>
-                <Button
+                <RemoveButton
                   variant="danger"
                   size="small"
                   onClick={async () => {
@@ -350,7 +377,7 @@ const InstructorManagement = () => {
                   }
                 >
                   Remover
-                </Button>
+                </RemoveButton>
               </Card>
             ))}
           </Grid>

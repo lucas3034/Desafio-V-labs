@@ -1,5 +1,6 @@
 {
   "name": "coursesphere",
+  "type": "module",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,21 +12,20 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
     "react-router-dom": "^6.22.1",
-    "react-scripts": "^5.0.1",
     "styled-components": "^6.1.8",
     "web-vitals": "^3.5.2"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.6.0",
     "concurrently": "^8.2.2",
-    "json-server": "^1.0.0-alpha.23"
+    "json-server": "^1.0.0-alpha.23",
+    "vite": "^7.0.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "json-server --watch db.json --port 3001",
-    "dev": "concurrently \"npm run server\" \"npm start\""
+    "dev": "concurrently \"npm run server\" \"vite\"",
+    "build": "vite build",
+    "preview": "vite preview",
+    "server": "json-server --watch db.json --port 3001"
   },
   "eslintConfig": {
     "extends": [
