@@ -40,75 +40,76 @@ O CourseSphere foi desenvolvido como resposta ao **Desafio Front-End - Edital 38
 
 ## 🚀 Tecnologias Utilizadas
 
+- **Vite** como build tool e servidor de desenvolvimento
 - **React 18** com Hooks
 - **React Router DOM** para navegação
 - **Styled Components** para estilização
 - **Axios** para requisições HTTP
 - **JSON Server** como API local
-- **Concurrently** para execução simultânea de servidores
+- **Concurrently** para execução simultânea de scripts
 
 ## 📦 Instalação e Execução
 
 ### Pré-requisitos
-- Node.js (versão 16 ou superior)
+- Node.js (versão 18 ou superior)
 - npm ou yarn
 
 ### Passo a Passo
 
-1. **Clone o repositório**
-```bash
-git clone https://github.com/seu-usuario/coursesphere.git
-cd coursesphere
-```
+1.  **Clone o repositório**
+    ```bash
+    git clone [https://github.com/lucas3034/Desafio-V-labs.git](https://github.com/lucas3034/Desafio-V-labs.git)
+    cd Desafio-V-labs
+    ```
 
-2. **Instale as dependências**
-```bash
-npm install
-```
+2.  **Instale as dependências**
+    ```bash
+    npm install
+    ```
 
-3. **Execute o projeto em modo desenvolvimento**
-```bash
-npm run dev
-```
+3.  **Execute o projeto em modo desenvolvimento**
+    ```bash
+    npm run dev
+    ```
 
-Este comando iniciará simultaneamente:
-- **Frontend React**: http://localhost:3000
-- **API JSON Server**: http://localhost:3001
+    Este comando iniciará simultaneamente:
+    - **Frontend (Vite- React)**: `http://localhost:3000`
+    - **API (JSON Server)**: `http://localhost:3001`
 
 ### Comandos Disponíveis
 
 ```bash
-# Iniciar apenas o frontend
-npm start
-
-# Iniciar apenas a API
-npm run server
-
-# Iniciar frontend + API simultaneamente
+# Inicia o ambiente de desenvolvimento completo com Vite e JSON Server (Front e API)
 npm run dev
 
-# Build para produção
+# Compila a aplicação para produção na pasta `dist`
 npm run build
 
-# Executar testes
-npm test
-```
+# Inicia um servidor local para pré-visualizar o build de produção
+npm run preview
+
+# Inicia apenas a API mock com JSON Server
+npm run server
+````
 
 ## 👤 Credenciais de Teste
 
 Para facilitar os testes, utilize as seguintes credenciais:
 
 **Usuário 1:**
-- Email: `joao@example.com`
-- Senha: `123456`
+
+  - Email: `joao@example.com`
+  - Senha: `123456`
 
 **Usuário 2:**
-- Email: `maria@example.com` 
-- Senha: `123456`
+
+  - Email: `maria@example.com`
+  - Senha: `123456`
 
 **Usuário 3:**
-- Email: `pedro@example.com`
-- Senha: `123456`
+
+  - Email: `pedro@example.com`
+  - Senha: `123456`
 
 ## 🗂️ Estrutura do Projeto
 
@@ -117,7 +118,7 @@ src/
 ├── components/          # Componentes reutilizáveis
 │   ├── common/         # Componentes comuns (Pagination, PrivateRoute)
 │   └── layout/         # Componentes de layout
-├── context/            # Contextos React (AuthContext)
+├── context/            # Contextos React (AuthContext, ApiStatusContext)
 ├── hooks/              # Hooks customizados (useForm, usePagination)
 ├── pages/              # Páginas da aplicação
 ├── services/           # Serviços de API
@@ -132,113 +133,124 @@ src/
 ![image](https://github.com/user-attachments/assets/0e67dce6-433c-470c-bb7d-a64ca5718444)
 
 ### 1. Sistema de Autenticação
-- Login com validação de email e senha
-- Proteção de rotas privadas
-- Persistência de sessão no localStorage
-- Logout seguro
+
+  - Login com validação de email e senha
+  - Proteção de rotas privadas
+  - Persistência de sessão no localStorage
+  - Logout seguro
 
 ![image](https://github.com/user-attachments/assets/99b8eed1-3c5c-44e2-b1c1-3dc84814e285)
 
-
 ### 2. Dashboard
-- Lista de cursos do usuário (criador ou instrutor)
-- Informações resumidas de cada curso
-- Indicação visual do papel do usuário
-- Criação rápida de novos cursos
+
+  - Lista de cursos do usuário (criador ou instrutor)
+  - Informações resumidas de cada curso
+  - Indicação visual do papel do usuário
+  - Criação rápida de novos cursos
 
 ![image](https://github.com/user-attachments/assets/4cd7284a-3bd8-4bcf-86d2-bb153a0f3f81)
 
 ### 3. Gestão de Cursos
-- Formulário completo de criação/edição
-- Validações em tempo real
-- Controle de permissões por função
-- Visualização detalhada com metadados
+
+  - Formulário completo de criação/edição
+  - Validações em tempo real
+  - Controle de permissões por função
+  - Visualização detalhada com metadados
+
 
 ![image](https://github.com/user-attachments/assets/8df8f743-5189-4700-8b00-ea288d002409)
-
 ### 4. Gestão de Aulas
-- CRUD completo com regras específicas
-- Busca por título
-- Filtros por status (draft, published, archived)
-- Paginação de resultados
-- Preview de vídeos
+
+  - CRUD completo com regras específicas
+  - Busca por título
+  - Filtros por status (draft, published, archived)
+  - Paginação de resultados
+  - Preview de vídeos
+
 
 ![image](https://github.com/user-attachments/assets/b75c9946-9ecf-4f5f-a5ce-2341d4dab94d)
-
 ### 5. Gerenciamento de Instrutores
-- Visualização de instrutores atuais
-- Adição via API externa (RandomUser.me)
-- Remoção de instrutores
-- Feedbacks visuais de ações
+
+  - Visualização de instrutores atuais
+  - Adição via API externa (RandomUser.me)
+  - Remoção de instrutores
+  - Feedbacks visuais de ações
+
 
 ![image](https://github.com/user-attachments/assets/331ee3bb-26e6-4f1e-957b-5875b23fded8)
-
 ### 6. Sistema de Busca e Filtros
-- Campo de busca por título de aulas
-- Filtros combinados (status + curso)
-- Resultados paginados
-- Performance otimizada
+
+  - Campo de busca por título de aulas
+  - Filtros combinados (status + curso)
+  - Resultados paginados
+  - Performance otimizada
 
 ## 🔒 Controle de Permissões
 
 ### Criador do Curso
-- ✅ Editar/excluir curso
-- ✅ Gerenciar lista de instrutores
-- ✅ Criar, editar e excluir qualquer aula do curso
+
+  - ✅ Editar/excluir curso
+  - ✅ Gerenciar lista de instrutores
+  - ✅ Criar, editar e excluir qualquer aula do curso
 
 ### Instrutor Colaborador
-- ✅ Visualizar detalhes do curso
-- ✅ Criar novas aulas
-- ✅ Editar/excluir apenas suas próprias aulas
-- ❌ Editar curso ou gerenciar instrutores
+
+  - ✅ Visualizar detalhes do curso
+  - ✅ Criar novas aulas
+  - ✅ Editar/excluir apenas suas próprias aulas
+  - ❌ Editar curso ou gerenciar instrutores
 
 ## 🌐 APIs Utilizadas
 
 ### API Local (JSON Server)
-- **Base URL**: http://localhost:3001
-- **Endpoints**: 
-  - `/users` - Gestão de usuários
-  - `/courses` - Gestão de cursos
-  - `/lessons` - Gestão de aulas
+
+  - **Base URL**: `http://localhost:3001`
+  - **Endpoints**:
+      - `/users` - Gestão de usuários
+      - `/courses` - Gestão de cursos
+      - `/lessons` - Gestão de aulas
 
 ### API Externa
-- **RandomUser.me**: Para sugestão de novos instrutores
-- **Endpoint**: https://randomuser.me/api
+
+  - **RandomUser.me**: Para sugestão de novos instrutores
+  - **Endpoint**: `https://randomuser.me/api`
 
 ## 📱 Responsividade
 
 O projeto foi desenvolvido com abordagem **mobile-first** e é totalmente responsivo, funcionando perfeitamente em:
-- 📱 Dispositivos móveis (320px+)
-- 📟 Tablets (768px+)
-- 💻 Desktops (1024px+)
+
+  - 📱 Dispositivos móveis (320px+)
+  - 📟 Tablets (768px+)
+  - 💻 Desktops (1024px+)
 
 ## 🎯 Diferenciais Implementados
 
-- ✅ **Estrutura organizada** seguindo boas práticas
-- ✅ **Hooks customizados** para lógicas reutilizáveis
-- ✅ **Layout responsivo** e agradável
-- ✅ **Feedbacks visuais** em todas as interações
-- ✅ **Página de erro** personalizada
-- ✅ **Utilização de API externa** para instrutores
-- ✅ **Validações robustas** em todos os formulários
+  - ✅ **Estrutura organizada** seguindo boas práticas
+  - ✅ **Hooks customizados** para lógicas reutilizáveis
+  - ✅ **Layout responsivo** e agradável
+  - ✅ **Feedbacks visuais** em todas as interações
+  - ✅ **Página de erro** personalizada
+  - ✅ **Utilização de API externa** para instrutores
+  - ✅ **Validações robustas** em todos os formulários
 
 ## 🐛 Tratamento de Erros
 
-- Páginas de erro personalizadas (403, 404, 500)
-- Mensagens de erro contextualizadas
-- Fallbacks para falhas de rede
-- Validações client-side e server-side
+  - Páginas de erro personalizadas (403, 404, 500)
+  - Mensagens de erro contextualizadas
+  - Fallbacks para falhas de rede
+  - Validações client-side e server-side
 
 ## 🔄 Estado e Performance
 
-- Context API para gerenciamento de estado global
-- Hooks customizados para lógicas específicas
-- Lazy loading de componentes quando possível
-- Otimização de re-renders
+  - Context API para gerenciamento de estado global
+  - Hooks customizados para lógicas específicas
+  - Lazy loading de componentes quando possível
+  - Otimização de re-renders
 
 ## 📊 Estrutura de Dados
 
 ### Usuários (users)
+
 ```json
 {
   "id": 1,
@@ -249,6 +261,7 @@ O projeto foi desenvolvido com abordagem **mobile-first** e é totalmente respon
 ```
 
 ### Cursos (courses)
+
 ```json
 {
   "id": 1,
@@ -262,13 +275,14 @@ O projeto foi desenvolvido com abordagem **mobile-first** e é totalmente respon
 ```
 
 ### Aulas (lessons)
+
 ```json
 {
   "id": 1,
   "title": "Introdução ao React",
   "status": "published",
   "publish_date": "2025-01-20",
-  "video_url": "https://www.youtube.com/watch?v=example",
+  "video_url": "[https://www.youtube.com/watch?v=example](https://www.youtube.com/watch?v=example)",
   "course_id": 1,
   "creator_id": 1
 }
@@ -282,6 +296,7 @@ O projeto está pronto para deploy em plataformas como:
 - **GitHub Pages**
 
 Para build de produção:
+
 ```bash
 npm run build
 ```
@@ -290,16 +305,17 @@ npm run build
 
 Este projeto foi desenvolvido seguindo as especificações do Edital 38-2025. Para contribuições:
 
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature
-3. Commit suas mudanças
-4. Push para a branch
-5. Abra um Pull Request
+1.  Faça um fork do projeto
+2.  Crie uma branch para sua feature
+3.  Commit suas mudanças
+4.  Push para a branch
+5.  Abra um Pull Request
 
 ## 📄 Licença
 
-Este projeto foi desenvolvido para fins acadêmicos/teste técnico conforme Edital 38-2025.
+Este projeto foi desenvolvido para teste técnico conforme Edital 38-2025.
 
----
+-----
 
-**Desenvolvido com ❤️ seguindo todas as especificações do Desafio Front-End**
+**Desenvolvido seguindo todas as especificações do Desafio Front-End**
+

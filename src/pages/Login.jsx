@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Navigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../context/AuthContext';
@@ -17,6 +17,7 @@ import {
   Alert,
   IconButton
 } from '../styles/GlobalStyles';
+import { ApiStatusContext } from '../context/ApiStatusContext';
 
 const LoginWrapper = styled.div`
   min-height: 100vh;
@@ -163,6 +164,8 @@ const Login = () => {
   const [loginError, setLoginError] = useState('');
   const [showCredentials, setShowCredentials] = useState(false);
 
+  const { isRemote, loading: apiLoading } = useContext(ApiStatusContext);
+
   const { values, errors, touched, handleChange, handleBlur, validateAll } = useForm(
     { email: '', password: '' },
     loginValidationRules
@@ -215,6 +218,18 @@ const Login = () => {
             <Title>CourseSphere</Title>
             <Subtitle>Faça login para acessar sua plataforma de cursos</Subtitle>
           </Header>
+
+          {(!apiLoading && isRemote) && (
+            <Alert variant="warning" style={{ marginBottom: 24 }}>
+              <strong>⚠️ Não foi possível conectar ao banco de dados local (db.json).</strong><br />
+              Você está conectado ao modo virtual (apenas consulta).<br />
+              Para criar ou atualizar dados, acesse o repositório no GitHub:<br />
+              <a href="https://github.com/lucas3034/Desafio-V-labs" target="_blank" rel="noopener noreferrer">
+                https://github.com/lucas3034/Desafio-V-labs
+              </a><br />
+              e siga as instruções para rodar o projeto localmente.
+            </Alert>
+          )}
 
           <CredentialsButton
             variant="secondary"

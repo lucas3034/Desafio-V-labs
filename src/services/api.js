@@ -1,11 +1,27 @@
 import axios from 'axios';
 
-const API_BASE_URL = 'http://localhost:3001';
+const LOCAL_API_URL = 'http://localhost:3001';
+const REMOTE_API_URL = 'https://my-json-server.typicode.com/lucas3034/desafio-v-labs';
 const EXTERNAL_API_URL = 'https://randomuser.me/api';
 
 const api = axios.create({
-  baseURL: API_BASE_URL,
 });
+
+export const initializeApi = async () => {
+  try {
+    await axios.get(`${LOCAL_API_URL}/users`, { timeout: 2000 });
+    console.log('✅ Conectado com sucesso ao backend primário (localhost:3001).');
+    api.defaults.baseURL = LOCAL_API_URL;
+  } catch (error) {
+    console.warn(
+      '❌ Não foi possível conectar ao backend primário (localhost:3001). Erro:',
+      error.message
+    );
+    console.warn('🔄 Utilizando o backend de fallback (online).');
+    api.defaults.baseURL = REMOTE_API_URL;
+  }
+};
+
 
 export const authService = {
   async login(email, password) {
@@ -19,7 +35,8 @@ export const authService = {
       
       return user;
     } catch (error) {
-      throw new Error('Erro ao fazer login');
+      console.error("Erro no serviço de login:", error);
+      throw new Error('Erro ao fazer login. Verifique o console para mais detalhes.');
     }
   }
 };
@@ -57,8 +74,13 @@ export const userService = {
 
 export const courseService = {
   async getAll() {
-    const response = await api.get('/courses');
-    return response.data;
+    try {
+      const response = await api.get('/courses');
+      return Array.isArray(response.data) ? response.data : [];
+    } catch (error) {
+      console.error("Erro ao buscar cursos:", error);
+      return [];
+    }
   },
 
   async getById(id) {
@@ -109,7 +131,6 @@ export const lessonService = {
       ...lessonData,
       creator_id: parseInt(lessonData.creator_id, 10)
     };
-    console.log('API: Salvando aula com dados processados:', processedData);
     const response = await api.post('/lessons', processedData);
     return response.data;
   },
