@@ -182,7 +182,6 @@ export const Card = styled.div`
     left: 0;
     right: 0;
     height: 4px;
-    background: ${props => props.theme.colors.primaryGradient};
     opacity: 0;
     transition: ${props => props.theme.transitions.normal};
   }

@@ -54,6 +54,21 @@ const LoginCard = styled(Card)`
   z-index: 1;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 12px 0 rgba(120,119,198,0.10), 0 1.5px 8px 0 rgba(60,60,130,0.08);
+  transition: 
+    box-shadow 0.35s cubic-bezier(0.4,0.2,0.2,1),
+    transform 0.28s cubic-bezier(0.4,0.2,0.2,1),
+    filter 0.28s cubic-bezier(0.4,0.2,0.2,1);
+
+  &:hover, &:focus-within {
+    box-shadow:
+      0 6px 24px 0 rgba(120,119,198,0.16),
+      0 2px 8px 0 rgba(60,60,130,0.10),
+      0 0 8px 2px rgba(120,119,198,0.08);
+    transform: scale(1.015) translateY(-2px);
+    filter: brightness(1.03) drop-shadow(0 0 8px rgba(120,119,198,0.08));
+    outline: none;
+  }
 `;
 
 const Header = styled.div`

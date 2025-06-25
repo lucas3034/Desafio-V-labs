@@ -31,18 +31,6 @@
       "password": "123456"
     },
     {
-      "id": "1e3b",
-      "name": "Noah Lewis",
-      "email": "noah.lewis@example.com",
-      "password": "123456"
-    },
-    {
-      "id": "8a22",
-      "name": "Noah Lewis",
-      "email": "noah.lewis@example.com",
-      "password": "123456"
-    },
-    {
       "id": "8ac3",
       "name": "Sofia Lo",
       "email": "sofia.lo@example.com",
@@ -56,7 +44,10 @@
       "start_date": "2025-01-15",
       "end_date": "2025-03-15",
       "creator_id": "1",
-      "id": "1"
+      "id": "1",
+      "instructors": [
+        "1"
+      ]
     },
     {
       "id": "2",
@@ -87,7 +78,7 @@
       "publish_date": "2025-01-25",
       "video_url": "https://www.youtube.com/watch?v=bSkqEC6L6is",
       "course_id": "1",
-      "creator_id": "2"
+      "creator_id": null
     },
     {
       "id": "3",

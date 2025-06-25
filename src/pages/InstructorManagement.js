@@ -35,14 +35,6 @@ const SectionTitle = styled.h2`
   font-size: 1.25rem;
 `;
 
-const InstructorCard = styled(Card)`
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-
-  &:hover {
-    transform: translateY(-2px);
-    box-shadow: ${(props) => props.theme.shadows.lg};
-  }
-`;
 
 const InstructorInfo = styled.div`
   margin-bottom: ${(props) => props.theme.spacing.md};
@@ -59,19 +51,6 @@ const InstructorEmail = styled.p`
   font-size: 0.875rem;
 `;
 
-const RoleBadge = styled.span`
-  background: ${(props) =>
-    props.isCreator ? props.theme.colors.primary : props.theme.colors.success};
-  color: ${(props) => props.theme.colors.white};
-  padding: ${(props) => props.theme.spacing.xs}
-    ${(props) => props.theme.spacing.sm};
-  border-radius: ${(props) => props.theme.borderRadius.sm};
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  margin-bottom: ${(props) => props.theme.spacing.md};
-  display: inline-block;
-`;
 
 const ExternalUserCard = styled(Card)`
   text-align: center;
@@ -90,6 +69,13 @@ const UserAvatar = styled.img`
   border-radius: 50%;
   margin-bottom: ${(props) => props.theme.spacing.sm};
   object-fit: cover;
+`;
+
+const AvatarWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 `;
 
 const GenAvatar = styled.div`
@@ -160,8 +146,7 @@ const InstructorManagement = () => {
         lessonService.getByCourse(courseId)
       ]);
 
-      // Permitir acesso ao criador ou instrutores
-      const isCreator = courseData.creator_id === user.id;
+    const isCreator = courseData.creator_id === user.id;
       const isInstructor =
         Array.isArray(courseData.instructors) &&
         courseData.instructors.map(String).includes(String(user.id));
@@ -172,8 +157,7 @@ const InstructorManagement = () => {
 
       setCourse(courseData);
 
-      // IDs de instrutores: criador, course.instructors, e creator_id das lessons
-      const instructorIds = new Set();
+    const instructorIds = new Set();
       if (courseData.creator_id)
         instructorIds.add(String(courseData.creator_id));
       if (Array.isArray(courseData.instructors)) {
@@ -207,8 +191,7 @@ const InstructorManagement = () => {
         externalService.getRandomUsers(8),
         userService.getAll()
       ]);
-      // Remove duplicados por email
-      const emailsSet = new Set();
+    const emailsSet = new Set();
       const allUsers = [...localUsers, ...externalUsers].filter((user) => {
         if (emailsSet.has(user.email)) return false;
         emailsSet.add(user.email);
@@ -222,41 +205,6 @@ const InstructorManagement = () => {
     }
   };
 
-  const removeInstructor = async (instructorId) => {
-    if (instructorId === course.creator_id) {
-      setError('Não é possível remover o criador do curso');
-      return;
-    }
-
-    if (!window.confirm('Tem certeza que deseja remover este instrutor?')) {
-      return;
-    }
-
-    try {
-      const updatedInstructors = course.instructors.filter(
-        (id) => id !== instructorId
-      );
-
-      await courseService.update(courseId, {
-        ...course,
-        instructors: updatedInstructors
-      });
-
-      setCourse((prev) => ({
-        ...prev,
-        instructors: updatedInstructors
-      }));
-
-      setInstructors((prev) =>
-        prev.filter((instructor) => instructor.id !== instructorId)
-      );
-      setMessage('Instrutor removido com sucesso');
-
-      setTimeout(() => setMessage(''), 3000);
-    } catch (error) {
-      setError('Erro ao remover instrutor');
-    }
-  };
 
   const addExternalInstructor = async (externalUser) => {
     try {
@@ -275,7 +223,9 @@ const InstructorManagement = () => {
         password: '123456'
       });
 
-      const updatedInstructors = [...course.instructors, newUser.id];
+      const updatedInstructors = Array.isArray(course.instructors)
+        ? [...course.instructors, newUser.id]
+        : [newUser.id];
 
       await courseService.update(courseId, {
         ...course,
@@ -333,37 +283,75 @@ const InstructorManagement = () => {
       {error && <ErrorAlert>{error}</ErrorAlert>}
 
       <Section>
-        <SectionTitle>Instrutores Atuais</SectionTitle>
-
+        <SectionTitle>Instrutores do Curso</SectionTitle>
         {instructors.length === 0 ? (
           <EmptyState>
-            <h3>Nenhum instrutor encontrado</h3>
+            <h3>Nenhum instrutor associado a este curso.</h3>
           </EmptyState>
         ) : (
           <Grid>
-            {instructors.map((instructor) => (
-              <InstructorCard key={instructor.id}>
-                <RoleBadge isCreator={instructor.id === course.creator_id}>
-                  {instructor.id === course.creator_id
-                    ? 'Criador'
-                    : 'Instrutor'}
-                </RoleBadge>
-
-                <InstructorInfo>
-                  <InstructorName>{instructor.name}</InstructorName>
-                  <InstructorEmail>{instructor.email}</InstructorEmail>
-                </InstructorInfo>
-
-                {instructor.id !== course.creator_id && (
-                  <Button
-                    variant="danger"
-                    size="small"
-                    onClick={() => removeInstructor(instructor.id)}
-                  >
-                    Remover
-                  </Button>
-                )}
-              </InstructorCard>
+            {instructors.map((inst) => (
+              <Card key={inst.id} style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                <AvatarWrapper>
+                  {inst.picture ? (
+                    <UserAvatar src={inst.picture} alt={inst.name} />
+                  ) : (
+                    <GenAvatar>
+                      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+                        <circle cx="18" cy="18" r="18" fill="#e0e0e0"/>
+                        <path d="M18 18c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm0 3c-4.418 0-12 2.21-12 6.6V30h24v-2.4c0-4.39-7.582-6.6-12-6.6z" fill="#bdbdbd"/>
+                      </svg>
+                    </GenAvatar>
+                  )}
+                </AvatarWrapper>
+                <div style={{ flex: 1 }}>
+                  <InstructorName>{inst.name}</InstructorName>
+                  <InstructorEmail>{inst.email}</InstructorEmail>
+                </div>
+                <Button
+                  variant="danger"
+                  size="small"
+                  onClick={async () => {
+                    try {
+                  if (inst.id === course.creator_id) {
+                        setError('Não é possível remover o criador do curso');
+                        return;
+                      }
+                  const updatedInstructors = instructors.filter(i => i.id !== inst.id).map(i => i.id);
+                      await courseService.update(courseId, {
+                        ...course,
+                        instructors: updatedInstructors
+                      });
+                  const lessons = await lessonService.getByCourse(courseId);
+                      await Promise.all(
+                        lessons
+                          .filter(lesson => String(lesson.creator_id) === String(inst.id))
+                          .map(lesson =>
+                            lessonService.update(lesson.id, {
+                              ...lesson,
+                              creator_id: null
+                            })
+                          )
+                      );
+                      setInstructors(prev => prev.filter(i => i.id !== inst.id));
+                      setMessage('Instrutor removido com sucesso');
+                      setTimeout(() => setMessage(''), 3000);
+                    } catch {
+                      setError('Erro ao remover instrutor');
+                    }
+                  }}
+                  disabled={inst.id === user.id || inst.id === course.creator_id}
+                  title={
+                    inst.id === user.id
+                      ? "Você não pode se remover"
+                      : inst.id === course.creator_id
+                      ? "Não é possível remover o criador do curso"
+                      : "Remover instrutor"
+                  }
+                >
+                  Remover
+                </Button>
+              </Card>
             ))}
           </Grid>
         )}
@@ -394,49 +382,36 @@ const InstructorManagement = () => {
           </EmptyState>
         ) : (
           <Grid>
-            {externalUsers.map((externalUser, index) => (
-              <ExternalUserCard key={index}>
-                {externalUser.picture ? (
-                  <UserAvatar
-                    src={externalUser.picture}
-                    alt={externalUser.name}
-                  />
-                ) : (
-                  <GenAvatar>
-                    <svg
-                      width="36"
-                      height="36"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      style={{ display: 'block' }}
-                    >
-                      <circle cx="12" cy="8" r="4" fill="#bbb" />
-                      <rect
-                        x="4"
-                        y="16"
-                        width="16"
-                        height="6"
-                        rx="3"
-                        fill="#bbb"
-                      />
-                    </svg>
-                  </GenAvatar>
-                )}
-
-                <InstructorInfo>
-                  <InstructorName>{externalUser.name}</InstructorName>
-                  <InstructorEmail>{externalUser.email}</InstructorEmail>
-                </InstructorInfo>
-
-                <Button
-                  onClick={() => addExternalInstructor(externalUser)}
-                  variant="success"
-                  size="small"
-                >
-                  Adicionar
-                </Button>
-              </ExternalUserCard>
-            ))}
+{externalUsers.map((externalUser, index) => (
+  <ExternalUserCard key={index}>
+    <AvatarWrapper>
+      {externalUser.picture ? (
+        <UserAvatar
+          src={externalUser.picture}
+          alt={externalUser.name}
+        />
+      ) : (
+        <GenAvatar>
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-hidden="true">
+            <circle cx="18" cy="18" r="18" fill="#e0e0e0"/>
+            <path d="M18 18c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm0 3c-4.418 0-12 2.21-12 6.6V30h24v-2.4c0-4.39-7.582-6.6-12-6.6z" fill="#bdbdbd"/>
+          </svg>
+        </GenAvatar>
+      )}
+    </AvatarWrapper>
+    <InstructorInfo>
+      <InstructorName>{externalUser.name}</InstructorName>
+      <InstructorEmail>{externalUser.email}</InstructorEmail>
+    </InstructorInfo>
+    <Button
+      onClick={() => addExternalInstructor(externalUser)}
+      variant="success"
+      size="small"
+    >
+      Adicionar
+    </Button>
+  </ExternalUserCard>
+))}
           </Grid>
         )}
       </Section>

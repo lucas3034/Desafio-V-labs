@@ -439,7 +439,6 @@ const CourseDetails = () => {
     }
   }, [id, navigate, user]);
 
-  // Função para refresh manual
   const refreshLessons = useCallback(async () => {
     try {
       const lessonsData = await lessonService.getByCourse(id);
@@ -450,7 +449,6 @@ const CourseDetails = () => {
     }
   }, [id]);
 
-  // Expor função de refresh para uso global
   window.refreshCourseDetails = refreshLessons;
 
   const applyFilters = useCallback(() => {
@@ -516,7 +514,6 @@ const CourseDetails = () => {
     console.log('Course instructors:', course.instructors);
     console.log('Is creator:', isCreator());
 
-    // Verificar se é instrutor (comparando tanto string quanto number)
     const isInstructorResult =
       (Array.isArray(course.instructors) &&
         course.instructors.some((instructorId) => {
@@ -683,14 +680,18 @@ const CourseDetails = () => {
           <InfoSection>
             <div className="title">👨‍🏫 Instrutores</div>
             <InstructorsList>
-              {(Array.isArray(course.instructors)
-                ? course.instructors
-                : []
-              ).map((instructorId) => (
-                <InstructorChip key={instructorId}>
-                  {getUserName(instructorId)}
-                </InstructorChip>
-              ))}
+              {(() => {
+                const ids = new Set();
+                if (course.creator_id) ids.add(String(course.creator_id));
+                if (Array.isArray(course.instructors)) {
+                  course.instructors.forEach((id) => ids.add(String(id)));
+                }
+                return Array.from(ids).map((instructorId) => (
+                  <InstructorChip key={instructorId}>
+                    {getUserName(instructorId)}
+                  </InstructorChip>
+                ));
+              })()}
             </InstructorsList>
           </InfoSection>
         </InfoGrid>

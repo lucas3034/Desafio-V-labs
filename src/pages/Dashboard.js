@@ -223,7 +223,10 @@ const Dashboard = () => {
   const getUserRole = (course) => {
     if (!user) return null;
     if (course.creator_id === user.id) return 'Criador';
-    if (course.instructors.map(String).includes(String(user.id)))
+    if (
+      Array.isArray(course.instructors) &&
+      course.instructors.map(String).includes(String(user.id))
+    )
       return 'Instrutor';
     return null;
   };

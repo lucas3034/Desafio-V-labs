@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useAuth } from '../context/AuthContext';
-import { courseService } from '../services/api';
+import { courseService, userService } from '../services/api';
 import { useForm } from '../hooks/useForm';
 import { courseValidationRules } from '../utils/validation';
 import {
@@ -113,6 +113,7 @@ const CourseForm = () => {
   const [isLoadingData, setIsLoadingData] = useState(isEditing);
   const [submitError, setSubmitError] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
+  const [instructors, setInstructors] = useState([]);
 
   const {
     values,
@@ -134,9 +135,11 @@ const CourseForm = () => {
 
   const loadCourse = useCallback(async () => {
     try {
-      const course = await courseService.getById(id);
+      const [course, users] = await Promise.all([
+        courseService.getById(id),
+        userService.getAll()
+      ]);
 
-      // Permitir acesso ao criador ou instrutores
       const isCreator = course.creator_id === user.id;
       const isInstructor =
         Array.isArray(course.instructors) &&
@@ -152,6 +155,12 @@ const CourseForm = () => {
         start_date: course.start_date,
         end_date: course.end_date
       });
+
+      setInstructors(
+        Array.isArray(course.instructors)
+          ? users.filter(u => course.instructors.includes(u.id))
+          : []
+      );
     } catch (error) {
       setSubmitError('Erro ao carregar dados do curso');
     } finally {
@@ -179,7 +188,7 @@ const CourseForm = () => {
       const courseData = {
         ...values,
         creator_id: user.id,
-        instructors: isEditing ? undefined : [user.id]
+        instructors: isEditing ? instructors.map(i => i.id) : [user.id]
       };
 
       if (isEditing) {
@@ -188,16 +197,16 @@ const CourseForm = () => {
       } else {
         await courseService.create(courseData);
         setShowSuccess(true);
-        // Remover navegação automática, usuário decide quando voltar
-        // setTimeout(() => {
-        //   navigate(`/courses/${newCourse.id}`);
-        // }, 1500);
       }
     } catch (error) {
       setSubmitError('Erro ao salvar curso. Tente novamente.');
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleRemoveInstructor = (instructorId) => {
+    setInstructors(prev => prev.filter(i => i.id !== instructorId));
   };
 
   const handleCancel = () => {
@@ -219,6 +228,7 @@ const CourseForm = () => {
         onClose={() => setShowSuccess(false)}
         closeOnOverlayClick={false}
         hideCloseButton={true}
+        transparentBackground={true}
       >
         <SuccessContent>
           <SuccessIcon />
@@ -325,6 +335,39 @@ const CourseForm = () => {
                 )}
               </FormGroup>
             </Flex>
+
+            {isEditing && (
+              <FormGroup>
+                <Label>Instrutores do Curso</Label>
+                {instructors.length === 0 ? (
+                  <div style={{ color: '#888', marginBottom: 8 }}>Nenhum instrutor associado.</div>
+                ) : (
+                  <ul style={{ paddingLeft: 0, listStyle: 'none', marginBottom: 8 }}>
+                    {instructors.map((inst) => (
+                      <li key={inst.id} style={{ display: 'flex', alignItems: 'center', marginBottom: 4 }}>
+                        <span style={{ flex: 1 }}>
+                          {inst.name} <span style={{ color: '#888', fontSize: 13 }}>({inst.email})</span>
+                        </span>
+                        <Button
+                          type="button"
+                          variant="danger"
+                          size="sm"
+                          style={{ marginLeft: 8 }}
+                          onClick={() => handleRemoveInstructor(inst.id)}
+                          disabled={inst.id === user.id}
+                          title={inst.id === user.id ? "Você não pode se remover" : "Remover instrutor"}
+                        >
+                          Remover
+                        </Button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                <div style={{ color: '#888', fontSize: 13 }}>
+                  * Clique em "Remover" para desvincular um instrutor deste curso.
+                </div>
+              </FormGroup>
+            )}
 
             <ButtonGroup justify="flex-end" gap="1rem">
               <Button

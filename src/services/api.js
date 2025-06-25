@@ -36,6 +36,11 @@ export const userService = {
   },
 
   async create(userData) {
+    const existingUsers = await api.get('/users');
+    const emailExists = existingUsers.data.some(u => u.email === userData.email);
+    if (emailExists) {
+      throw new Error('Já existe um usuário com este email');
+    }
     const response = await api.post('/users', userData);
     return response.data;
   },
@@ -100,7 +105,6 @@ export const lessonService = {
   },
 
   async create(lessonData) {
-    // Garantir que creator_id seja número, mas course_id seja string
     const processedData = {
       ...lessonData,
       creator_id: parseInt(lessonData.creator_id, 10)

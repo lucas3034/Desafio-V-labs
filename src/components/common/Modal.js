@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { ModalOverlay, ModalCloseButton } from '../../styles/GlobalStyles';
+import { ModalOverlay, ModalContent, ModalCloseButton } from '../../styles/GlobalStyles';
 
 const Modal = ({
   isOpen,
@@ -8,7 +8,8 @@ const Modal = ({
   children,
   maxWidth = '500px',
   closeOnOverlayClick = true,
-  hideCloseButton = false
+  hideCloseButton = false,
+  transparentBackground = false
 }) => {
   useEffect(() => {
     const handleEscape = (e) => {
@@ -19,13 +20,11 @@ const Modal = ({
 
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
-      // Removido overflow hidden para permitir scroll do body com modal aberto
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
-      // Removido overflow unset
-    };
+  };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
@@ -38,13 +37,15 @@ const Modal = ({
 
   return (
     <ModalOverlay onClick={handleOverlayClick}>
-      <div
+      <ModalContent
         style={{
-          position: 'relative',
-          display: 'inline-block',
           minWidth: 380,
           minHeight: 120,
-          padding: 24
+          padding: 24,
+          position: 'relative',
+          background: transparentBackground ? 'none' : undefined,
+          boxShadow: transparentBackground ? 'none' : undefined,
+          border: transparentBackground ? 'none' : undefined
         }}
       >
         {!hideCloseButton && (
@@ -70,7 +71,7 @@ const Modal = ({
           </ModalCloseButton>
         )}
         {children}
-      </div>
+      </ModalContent>
     </ModalOverlay>
   );
 };
