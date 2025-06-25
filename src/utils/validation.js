@@ -94,10 +94,6 @@ export const lessonValidationRules = {
     required: true,
     custom: (value) => {
       if (!validateDate(value)) return 'Data de publicação inválida';
-      const inputDate = new Date(value);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      if (inputDate < today) return 'Data de publicação deve ser hoje ou uma data futura';
       return null;
     }
   },
